@@ -1,0 +1,42 @@
+.mode columns
+.headers on
+
+PRAGMA foreign_keys = ON;
+
+create table user(
+user_id integer NOT NULL primary key AUTOINCREMENT,
+name text NOT NULL, address text NOT NULL, mobile_no int NOT NULL,
+email text NOT NULL, password text NOT NULL);
+
+create table business(
+business_id integer NOT NULL primary key AUTOINCREMENT,
+name text NOT NULL, address text NOT NULL, mobile_no integer NOT NULL,
+email_id text NOT NULL, website text NOT NULL, service_type text NOT NULL,
+password text NOT NULL);
+
+create table services(
+service_id integer NOT NULL primary key AUTOINCREMENT, service_type text NOT NULL, 
+business_id integer,
+foreign key (business_id) references business (business_id) 
+);
+
+create table customer_service(
+user_id integer,
+service_id integer,
+foreign key (user_id) references user (user_id),
+foreign key (service_id) references services (service_id)
+);
+
+create table reviews_and_ratings(
+user_id integer,
+service_id integer,
+foreign key (user_id) references user (user_id),
+foreign key (service_id) references services (service_id)
+);
+
+create table deals_and_offers
+(
+offer_id integer NOT NULL primary key AUTOINCREMENT,
+service_id integer,
+foreign key (service_id) references services (service_id)
+);
