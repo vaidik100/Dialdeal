@@ -1,0 +1,190 @@
+PRAGMA foreign_keys = ON; 
+CREATE TABLE users (
+    user_id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    address TEXT NOT NULL, 
+    mobile_no INT NOT NULL,
+	email TEXT NOT NULL  
+	
+);
+
+CREATE TABLE businesses ( 
+    business_id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    address TEXT NOT NULL,
+    mobile_no INT NOT NULL,
+	email TEXT NOT NULL,
+	website TEXT 
+); 
+
+CREATE TABLE services(
+    service_id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    service_name TEXT NOT NULL, 
+    service_type TEXT 
+);
+
+CREATE TABLE customer_service(
+    user_id integer,
+    service_id integer,
+      foreign key (user_id) references users (user_id),
+	 foreign key (service_id)references services (service_id)
+);
+
+CREATE TABLE businessowner_service(
+     business_id INT NOT NULL,
+    service_id integer,
+    foreign key (business_id) references businesses (business_id),
+	 foreign key (service_id) references services (service_id)
+);
+
+CREATE TABLE offers(
+      offer_id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	  service_id integer,
+	  info TEXT NOT NULL,
+	 foreign key (service_id) references services (service_id)
+);
+
+CREATE TABLE reviews_rating(
+      review_id integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
+	  review TEXT NOT NULL,
+	   user_id integer,
+    service_id integer,
+	rating_stars TEXT NOT NULL,
+	  foreign key (user_id) references users (user_id),    
+	 foreign key (service_id) references services (service_id)
+	);    
+	
+.mode columns 
+.header on
+
+insert into users(name, address, mobile_no, email ) values ("Den", "28 Hobson St", 0221234567, "abcd@gmail.com"),
+("John", "39 Queen St", 0221234568, "john@gmail.com"),
+("Sam", "45 Symonds St", 0221234569, "sam@gmail.com"),
+("Virat", "28 Hobson St",0221234565, "virat@gmail.com"),
+("Root", "23 Hobson St",0221234564, "root@gmail.com"),
+("Kevin", "36 Queen st",0221234563, "kevin@gmail.com"),
+("Peterson", "33 Queen St", 0221234562, "peter@gmail.com"),
+("Samuel", "45 Symonds St",0221234561, "samuel@gmail.com"),
+("jimmy", "05 halsey St",0221234500, "jimmy@gmail.com"),
+("Ferguson", "120 Hobson St",0221234566, "ferguson@gmail.com"),
+("Symonds", "8 Symonds St",0221234577, "symonds@gmail.com"),
+("Smith", "24 Wellesly St",0221234588, "smith@gmail.com");
+
+insert into businesses(name, address, mobile_no, email, website) values ("aaaa", "22 Hobson St", 0221234567,"ABC@gmail.com","abc.com"),
+("Sky", "34 Queen St", 0221234566, "bcd@gmail.com","sky.com"),
+("Sofitel", "45 Symonds St", 0221234565, "aaaa@gmail.com","sofitel.com"),
+("Pizzaclub", "28 Hobson St",0221234564, "pizzaclub@gmail.com","pizzaclub.com"),
+("Woop", "23 Hobson St",0221234563, "woop@gmail.com","woop.com"),
+("Unique", "32 Queen st",0221234666, "unique@gmail.com","unique.com"),
+("Happy", "33 Queen St", 0221234562, "happy@gmail.com","happy.com"),
+("AucklandCity", "240 Queen St", 0221234561, "auckcity@gmail.com","auckcity.com"),
+("Dominos", "22 Queen st",0221236666, "dominos@gmail.com","dominos.nz"),
+("8poolA", "20 Wellesly st",0221234599, "8poolA@gmail.com","8poolA.com"),
+("Bright", "12 Gore st",0221234522, "bright@gmail.com","bright.com"),
+("Eatery", "22 Queen st",0221234521, "eatery@gmail.com","eatery.com");
+
+insert into services(service_name,service_type) values ("Food&drinks","Dinein/Takeaway/Delivery"),("Entertainment",""),
+("Accomodation",""),("Food&drinks","Dinein/Takeaway/Delivery"),("Entertainment",""),("Beauty","Inshop/Doortodoor"),("Entertainment",""),("Accomodation&Food&drinks","Dine-in"),("Food&drinks","Dine-in/Takeaway/Delivery"),("Entertainment",""),("Beauty","Inshop/Doortodoor"),("Food&drinks","Dinein/Takeaway/Delivery");
+
+insert into customer_service(user_id,service_id) values (1,1),(2,2),(3,3),(4,5),(5,5),(6,6),(7,7),(8,8),(10,11);
+
+insert into businessowner_service(business_id,service_id) values (1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(11,11),(9,9),(12,12);
+
+insert into offers(service_id,info) values (1,"20%Off"),(2,"25%Off"),(3,"40%Off"),(4,"30%Off"),(8,"10%Off"),(4,"35%Off"),(1,"10%off"),(7,"60%Off"),(5,"45%Off"),(8,"30%off"),(3,"40%off");
+
+insert into reviews_rating(review,user_id,service_id,rating_stars) values ("good service",1,2,4),("Nice service",2,1,5),("Very Good",1,5,4),("Excellent",4,8,4),("very Nice",6,7,5),("Comfortable service",7,2,4),("Excellent",1,3,4),
+("Excellent",8,3,5),("Nice",6,3,4),("Very Good",11,4,4),("Excellent Service",5,4,5),("Fabulous",4,5,4),("Good service",7,6,5),("Good",7,4,3),("Good service",3,4,2);
+
+select * from users;
+select * from businesses;
+select * from services;
+select * from customer_service;
+select * from businessowner_service;
+select * from offers;
+select * from reviews_rating;
+
+UPDATE users 
+SET name = 'Denny', address = '456 Elm St', mobile_no = '555-123-4567'
+WHERE user_id = 1;
+
+update users
+set name = "Group3"
+where user_id = 1;
+
+update users
+set email = "vaidik123@gmail.com"
+where user_id = 1;
+
+select * from users where user_id = 1;
+ 
+DELETE FROM users
+WHERE user_id = 9;
+
+select service_name,service_type from services;
+
+select * from reviews_rating where service_id = 4;
+
+SELECT * from reviews_rating
+WHERE service_id = 4
+ORDER BY rating_stars DESC;
+
+SELECT * from reviews_rating
+WHERE service_id = 4
+ORDER BY rating_stars ASC;
+
+UPDATE reviews_rating
+SET review = 'Very Good service',rating_stars = 5
+WHERE review_id = 1;
+
+DELETE FROM reviews_rating
+WHERE review_id = 2;   
+
+
+UPDATE businesses
+SET name = 'Delight', address = '456 Elm St', mobile_no = '555-123-1111', website= 'Delight.com'
+WHERE user_id = 1;
+
+update businesses
+set name = "Whatever"
+where business_id = 1;
+
+select * from businesses where business_id = 1;
+
+DELETE FROM businesses
+WHERE user_id = 10;
+
+SELECT service_id,info from offers
+ORDER BY info DESC; 
+
+SELECT service_id,info from offers
+ORDER BY info ASC; 
+
+SELECT services.*, businesses.business_id, offers.info as ""
+FROM services
+LEFT JOIN businessowner_service ON services.service_id = businessowner_service.service_id
+LEFT JOIN businesses ON businessowner_service.business_id = businesses.business_id
+LEFT JOIN offers ON services.service_id = offers.service_id;
+
+SELECT businesses.business_id, services.service_id, offers.info
+FROM businesses 
+JOIN services ON businesses.business_id = services.service_id
+JOIN offers ON services.service_id = offers.service_id;
+
+SELECT businesses.business_id, reviews_rating.*
+FROM businesses 
+JOIN businessowner_service ON businessowner_service.business_id = businesses.business_id
+JOIN reviews_rating ON reviews_rating.service_id = businessowner_service.service_id;
+
+SELECT review_id,user_id,service_id,review AS review_info,rating_stars 
+FROM reviews_rating;
+
+SELECT offer_id, service_id, info AS discount_info
+FROM offers;
+
+SELECT user_id, name AS user_name, address,mobile_no AS Contact_no,email
+FROM users;
+
+SELECT business_id, name AS business_name, address,mobile_no AS Contact_no,email,website
+FROM businesses;
+
+
